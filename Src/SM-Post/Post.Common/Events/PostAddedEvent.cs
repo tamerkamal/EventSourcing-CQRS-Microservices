@@ -1,10 +1,10 @@
-namespace Post.Cmd.Api.Commands;
+namespace Post.Common.Events;
 
-using CQRS.Core.Commands;
+using CQRS.Core.Events;
 
-public class NewPostCommand: BaseCommand
+public class PostAddedEvent : BaseEvent
 {
-    public NewPostCommand(string raisedBy, string text) : base(raisedBy)
+    public PostAddedEvent(string raisedBy, string text) : base(nameof(PostAddedEvent), raisedBy)
     {
         // assumed that author is same as the user who added the post (Raised the event)
         this.Author = raisedBy;
