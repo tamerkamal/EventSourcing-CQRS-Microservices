@@ -4,25 +4,46 @@ using CQRS.Core.Events;
 
 public abstract class AggregateRoot
 {
-    //public Guid Id { get; protected set; }
-    protected Guid _id;
-    public Guid Id
-    {
-        get { return _id; }
-    }
-
-    private readonly List<BaseEvent> _uncommitedEventChanges = new();
+    #region Properties   
 
     public int Version { get; set; } = -1;
+    public Guid _id { get; protected set; }
+    private readonly List<BaseEvent> _uncommitedEventChanges = new();
+
+    #endregion
+
+    #region Public methods
+
     public IEnumerable<BaseEvent> GetUncommittedChnegs()
     {
         return _uncommitedEventChanges;
     }
 
-    public void MarkChangesAsCommitted(string parameter)
+    public void ConsiderChangesAsCommitted()
     {
         _uncommitedEventChanges.Clear();
     }
+
+    public void ReplayEventStoreEvents(IEnumerable<BaseEvent> eventStoreEvents)
+    {
+        foreach (var @event in eventStoreEvents)
+        {
+            ApplyChange(@event, false);
+        }
+    }
+
+    #endregion
+
+    #region Protected methods
+
+    protected void RaiseEvent(BaseEvent @event)
+    {
+        ApplyChange(@event, true);
+    }
+
+    #endregion
+
+    #region Private methods
 
     private void ApplyChange(BaseEvent @event, bool isNewEvent)
     {
@@ -41,16 +62,5 @@ public abstract class AggregateRoot
         }
     }
 
-    protected void RaiseEvent(BaseEvent @event)
-    {
-        ApplyChange(@event, true);
-    }
-
-    public void ReplayEventStoreEvents(IEnumerable<BaseEvent> eventStoreEvents)
-    {
-        foreach (var @event in eventStoreEvents)
-        {
-            ApplyChange(@event, false);
-        }
-    }
+    #endregion  
 }

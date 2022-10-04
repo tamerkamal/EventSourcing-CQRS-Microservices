@@ -460,13 +460,27 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "CQRS.Core": "1.0.0"
+          "CQRS.Core": "1.0.0",
+          "Post.Common": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Post.Cmd.Domain.dll": {}
         },
         "runtime": {
           "bin/placeholder/Post.Cmd.Domain.dll": {}
+        }
+      },
+      "Post.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "CQRS.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Post.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.Common.dll": {}
         }
       }
     }
@@ -1043,6 +1057,11 @@
       "type": "project",
       "path": "../Post.Cmd.Domain/Post.Cmd.Domain.csproj",
       "msbuildProject": "../Post.Cmd.Domain/Post.Cmd.Domain.csproj"
+    },
+    "Post.Common/1.0.0": {
+      "type": "project",
+      "path": "../../Post.Common/Post.Common.csproj",
+      "msbuildProject": "../../Post.Common/Post.Common.csproj"
     }
   },
   "projectFileDependencyGroups": {

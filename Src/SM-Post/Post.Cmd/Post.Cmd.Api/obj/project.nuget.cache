@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "w5DHXuacHl76BR1wQDiFQxF8iKqlww+5hiRjh0u0WVpKWPl0UjSPrDJ04Fkg7IfACFsVgOWO3MI975RHbSj+gg==",
+  "dgSpecHash": "aOyqdH6BcdZw1L2Zjo41qsAnl4T+rnKsWM7HwwW0Gq7lpBKAEJ4zloCX+4Zk1iJ6MuG6JHWv1LbgMsTnWn8/QQ==",
   "success": true,
   "projectFilePath": "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\SM-Post\\Post.Cmd\\Post.Cmd.Api\\Post.Cmd.Api.csproj",
   "expectedPackageFiles": [

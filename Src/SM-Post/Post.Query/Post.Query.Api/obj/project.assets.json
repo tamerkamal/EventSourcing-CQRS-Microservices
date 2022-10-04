@@ -547,7 +547,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "CQRS.Core": "1.0.0"
+          "CQRS.Core": "1.0.0",
+          "Post.Common": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Post.Cmd.Domain.dll": {}

@@ -4,7 +4,7 @@ using CQRS.Core.Messages;
 
 public abstract class BaseEvent : Message
 {
-    protected BaseEvent(string type, string? raisedBy)
+    protected BaseEvent(string type, string raisedBy)
     {
         this.Type = type;
         this.RaisedOn = DateTimeOffset.UtcNow;

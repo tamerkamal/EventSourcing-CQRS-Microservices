@@ -180,6 +180,9 @@
             "projectReferences": {
               "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\CQRS-ES\\CQRS.Core\\CQRS.Core.csproj": {
                 "projectPath": "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\CQRS-ES\\CQRS.Core\\CQRS.Core.csproj"
+              },
+              "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\SM-Post\\Post.Common\\Post.Common.csproj": {
+                "projectPath": "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\SM-Post\\Post.Common\\Post.Common.csproj"
               }
             }
           }

@@ -266,6 +266,19 @@
         "runtime": {
           "bin/placeholder/CQRS.Core.dll": {}
         }
+      },
+      "Post.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "CQRS.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Post.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.Common.dll": {}
+        }
       }
     }
   },
@@ -666,11 +679,17 @@
       "type": "project",
       "path": "../../../CQRS-ES/CQRS.Core/CQRS.Core.csproj",
       "msbuildProject": "../../../CQRS-ES/CQRS.Core/CQRS.Core.csproj"
+    },
+    "Post.Common/1.0.0": {
+      "type": "project",
+      "path": "../../Post.Common/Post.Common.csproj",
+      "msbuildProject": "../../Post.Common/Post.Common.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "CQRS.Core >= 1.0.0"
+      "CQRS.Core >= 1.0.0",
+      "Post.Common >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -707,6 +726,9 @@
           "projectReferences": {
             "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\CQRS-ES\\CQRS.Core\\CQRS.Core.csproj": {
               "projectPath": "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\CQRS-ES\\CQRS.Core\\CQRS.Core.csproj"
+            },
+            "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\SM-Post\\Post.Common\\Post.Common.csproj": {
+              "projectPath": "D:\\Training\\.NET microservices and containerization\\repos\\EventSourcing-CQRS-Microservices\\Src\\SM-Post\\Post.Common\\Post.Common.csproj"
             }
           }
         }
