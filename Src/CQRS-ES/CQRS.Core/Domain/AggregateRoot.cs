@@ -1,12 +1,11 @@
 namespace CQRS.Core.Domain;
 
 using CQRS.Core.Events;
+
 public abstract class AggregateRoot
 {
     //public Guid Id { get; protected set; }
-
     protected Guid _id;
-
     public Guid Id
     {
         get { return _id; }
