@@ -4,7 +4,7 @@ using CQRS.Core.Events;
 
 public class CommentEditedEvent : BaseEvent
 {
-    public CommentEditedEvent(Guid id, string raisedBy, Guid commentId, string comment) : base(nameof(CommentEditedEvent), raisedBy)
+    public CommentEditedEvent(string raisedBy, Guid commentId, string comment) : base(nameof(CommentEditedEvent), raisedBy)
     {
         this.CommentId = commentId;
         this.Comment = comment;
