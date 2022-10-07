@@ -7,10 +7,9 @@ public class PostAggregate : AggregateRoot
 {
     #region Properties
 
-    private bool _isActive;
+    public bool IsActive { get; set; }
     private string _author;
     private readonly Dictionary<Guid, Tuple<string, string>> _comments = new();
-    public bool IsActive { get; set; }
 
     #endregion
 
@@ -18,12 +17,11 @@ public class PostAggregate : AggregateRoot
 
     public PostAggregate()
     {
-
     }
 
     public PostAggregate(Guid id, string author, string text)
     {
-        RaiseEvent(new PostAddedEvent(author, text));
+        RaiseEvent(new PostAddedEvent(author, text) { Id = id });
     }
 
     #endregion
@@ -33,13 +31,13 @@ public class PostAggregate : AggregateRoot
     public void Apply(PostAddedEvent @event)
     {
         _id = @event.Id;
-        _isActive = true;
+        IsActive = true;
         _author = @event.Author;
     }
 
     public void EditPostText(string text)
     {
-        if (_isActive)
+        if (!IsActive)
         {
             throw new InvalidOperationException("Can not edit text of a removed post!");
         }
@@ -49,35 +47,32 @@ public class PostAggregate : AggregateRoot
             throw new InvalidOperationException($"The value of {nameof(text)} can not be null or empty!");
         }
 
-        RaiseEvent(new PostTextEditedEvent(
-           _author, text
-         ));
+        RaiseEvent(new PostTextEditedEvent(_author, text) { Id = _id });
     }
 
     public void Apply(PostTextEditedEvent @event)
     {
+        _id = @event.Id;
     }
 
-    public void LikePost()
+    public void LikePost(string raisedBy)
     {
-        if (_isActive)
+        if (!IsActive)
         {
             throw new InvalidOperationException("Can not like a removed post!");
         }
 
-        RaiseEvent(new PostLikedEvent(
-           _author
-         ));
+        RaiseEvent(new PostLikedEvent(raisedBy) { Id = _id });
     }
 
     public void Apply(PostLikedEvent @event)
     {
-
+        _id = @event.Id;
     }
 
     public void AddComment(string comment, string commenter)
     {
-        if (_isActive)
+        if (!IsActive)
         {
             throw new InvalidOperationException("Can not comment on a removed post!");
         }
@@ -87,10 +82,7 @@ public class PostAggregate : AggregateRoot
             throw new InvalidOperationException($"The value of {nameof(comment)} can not be null or empty!");
         }
 
-
-        RaiseEvent(new CommentAddedEvent(
-           commenter, comment
-         ));
+        RaiseEvent(new CommentAddedEvent(commenter, Guid.NewGuid(), comment) { Id = _id });
     }
 
     public void Apply(CommentAddedEvent @event)
@@ -100,7 +92,7 @@ public class PostAggregate : AggregateRoot
 
     public void EditComment(Guid commentId, string comment, string commenter)
     {
-        if (_isActive)
+        if (!IsActive)
         {
             throw new InvalidOperationException("Can not edit comment on a removed post!");
         }
@@ -112,12 +104,10 @@ public class PostAggregate : AggregateRoot
 
         if (!_comments[commentId].Item2.Equals(commenter, StringComparison.CurrentCultureIgnoreCase))
         {
-            throw new($"You can edit a comment added by another user!");
+            throw new($"You can't edit a comment added by someone else!");
         }
 
-        RaiseEvent(new CommentEditedEvent(
-            commenter, commentId, comment
-         ));
+        RaiseEvent(new CommentEditedEvent(commenter, commentId, comment) { Id = _id });
     }
 
     public void Apply(CommentEditedEvent @event)
@@ -127,19 +117,17 @@ public class PostAggregate : AggregateRoot
 
     public void RemoveComment(Guid commentId, string commenter)
     {
-        if (_isActive)
+        if (!IsActive)
         {
-            throw new InvalidOperationException("Can not remove comment on a removed post!");
+            throw new InvalidOperationException("Can't remove a comment on a removed post!");
         }
 
         if (!_comments[commentId].Item2.Equals(commenter, StringComparison.CurrentCultureIgnoreCase))
         {
-            throw new($"You can remove a comment added by someone else!");
+            throw new($"You can't remove a comment added by someone else!");
         }
 
-        RaiseEvent(new CommentRemovedEvent(
-            commenter, commentId
-         ));
+        RaiseEvent(new CommentRemovedEvent(commenter, commentId) { Id = _id });
     }
 
     public void Apply(CommentRemovedEvent @event)
@@ -149,7 +137,7 @@ public class PostAggregate : AggregateRoot
 
     public void RemovePost(string author)
     {
-        if (_isActive)
+        if (!IsActive)
         {
             throw new InvalidOperationException("Posta already removed!");
         }
@@ -159,16 +147,13 @@ public class PostAggregate : AggregateRoot
             throw new($"You can remove a post added by someone else!");
         }
 
-        RaiseEvent(new PostRemovedEvent(
-             author
-         )
-        { Id = _id });
+        RaiseEvent(new PostRemovedEvent(author) { Id = _id });
     }
 
     public void Apply(PostRemovedEvent @event)
     {
         _id = @event.Id;
-        _isActive = false;
+        IsActive = false;
     }
 
     #endregion

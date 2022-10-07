@@ -24,7 +24,7 @@ public abstract class AggregateRoot
         _uncommitedEventChanges.Clear();
     }
 
-    public void ReplayEventStoreEvents(IEnumerable<BaseEvent> eventStoreEvents)
+    public void ReplayEvents(IEnumerable<BaseEvent> eventStoreEvents)
     {
         foreach (var @event in eventStoreEvents)
         {
