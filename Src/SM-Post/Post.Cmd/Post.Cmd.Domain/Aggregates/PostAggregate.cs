@@ -17,6 +17,7 @@ public class PostAggregate : AggregateRoot
 
     public PostAggregate()
     {
+
     }
 
     public PostAggregate(Guid id, string author, string text)
