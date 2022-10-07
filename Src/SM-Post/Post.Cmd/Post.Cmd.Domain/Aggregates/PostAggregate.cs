@@ -5,7 +5,7 @@ using Post.Common.Events;
 
 public class PostAggregate : AggregateRoot
 {
-    #region State
+    #region State Propeties
 
     public bool IsActive { get; set; }
     private string _author;
@@ -13,7 +13,7 @@ public class PostAggregate : AggregateRoot
 
     #endregion
 
-    #region Apply Changes
+    #region Apply state Changes
 
     public void Apply(PostAddedEvent @event)
     {
