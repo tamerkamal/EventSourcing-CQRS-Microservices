@@ -21,13 +21,31 @@ public class EventStoreRepository : IEventStoreRepository
         _eventStorCollection = mongoDb.GetCollection<EventStoreModel>(mongoDbConfig.Value.CollectionName);
     }
 
-    public async Task<List<EventStoreModel>> FindByAggregateIdAsync(Guid aggregateId)
+    #region Public methods
+
+    public async Task<List<BaseEvent>> FindEventsByAggregateIdAsync(Guid aggregateId)
     {
-        return await _eventStorCollection.Find(x => x.AggregateId == aggregateId).ToListAsync().ConfigureAwait(false);
+        return (await FindByAggregateIdAsync(aggregateId))?.Select(x => x.EventData).ToList();
     }
 
     public async Task SaveAsync(EventStoreModel eventStoreModel)
     {
         await _eventStorCollection.InsertOneAsync(@eventStoreModel).ConfigureAwait(false);
     }
+
+    public async Task SaveAsync(IEnumerable<EventStoreModel> eventStoreModels)
+    {
+        await _eventStorCollection.InsertManyAsync(@eventStoreModels).ConfigureAwait(false);
+    }
+
+    #endregion
+
+    #region Private methods
+
+    private async Task<List<EventStoreModel>> FindByAggregateIdAsync(Guid aggregateId)
+    {
+        return await _eventStorCollection.Find(x => x.AggregateId == aggregateId).ToListAsync().ConfigureAwait(false);
+    }
+
+    #endregion
 }

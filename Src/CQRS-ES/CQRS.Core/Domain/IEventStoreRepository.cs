@@ -4,6 +4,7 @@ using CQRS.Core.Events;
 
 public interface IEventStoreRepository
 {
+    Task<List<BaseEvent>> FindEventsByAggregateIdAsync(Guid aggregateId);
     Task SaveAsync(EventStoreModel @eventStoreModel);
-    Task<List<EventStoreModel>> FindByAggregateIdAsync(Guid aggregateId);
+    Task SaveAsync(IEnumerable<EventStoreModel> eventStoreModels);
 }
