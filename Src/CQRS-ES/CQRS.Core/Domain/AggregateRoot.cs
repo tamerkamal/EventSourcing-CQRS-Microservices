@@ -7,19 +7,19 @@ public abstract class AggregateRoot
     #region Properties   
 
     public int Version { get; set; } = -1;
-    public Guid _id { get; protected set; }
+    public Guid Id { get; protected set; }
     private readonly List<BaseEvent> _uncommitedEventChanges = new();
 
     #endregion
 
     #region Public methods
 
-    public IEnumerable<BaseEvent> GetUncommittedChnegs()
+    public IEnumerable<BaseEvent> GetUncommittedEvents()
     {
         return _uncommitedEventChanges;
     }
 
-    public void ConsiderChangesAsCommitted()
+    public void ConsiderEventChangesAsCommitted()
     {
         _uncommitedEventChanges.Clear();
     }

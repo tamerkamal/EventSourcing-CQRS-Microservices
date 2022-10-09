@@ -17,19 +17,19 @@ public class PostAggregate : AggregateRoot
 
     public void Apply(PostAddedEvent @event)
     {
-        _id = @event.Id;
+        Id = @event.Id;
         IsActive = true;
         _author = @event.Author;
     }
 
     public void Apply(PostTextEditedEvent @event)
     {
-        _id = @event.Id;
+        Id = @event.Id;
     }
 
     public void Apply(PostLikedEvent @event)
     {
-        _id = @event.Id;
+        Id = @event.Id;
     }
 
     public void Apply(CommentAddedEvent @event)
@@ -49,7 +49,7 @@ public class PostAggregate : AggregateRoot
 
     public void Apply(PostRemovedEvent @event)
     {
-        _id = @event.Id;
+        Id = @event.Id;
         IsActive = false;
     }
 
