@@ -12,38 +12,58 @@ public class CommandHandler : ICommandHandler
         _eventSourcingHandler = eventSourcingHandler;
     }
 
-    public Task HandleAsync(AddCommentCommand command)
+    public async Task HandleAsync(AddPostCommand command)
     {
-        throw new NotImplementedException();
+        PostAggregate aggregate = new(command.Id, command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
-    public Task HandleAsync(AddPostCommand command)
+    public async Task HandleAsync(AddCommentCommand command)
     {
-        throw new NotImplementedException();
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.AddComment(command.Comment, command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
-    public Task HandleAsync(EditCommentCommand command)
+    public async Task HandleAsync(EditCommentCommand command)
     {
-        throw new NotImplementedException();
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.EditComment(command.CommentId, command.Comment, command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
-    public Task HandleAsync(EditPostTextCommand command)
+    public async Task HandleAsync(EditPostTextCommand command)
     {
-        throw new NotImplementedException();
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.EditPostText(command.Text, command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
-    public Task HandleAsync(LikePostCommand command)
+    public async Task HandleAsync(LikePostCommand command)
     {
-        throw new NotImplementedException();
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.LikePost(command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
-    public Task HandleAsync(RemoveCommentCommand command)
+    public async Task HandleAsync(RemovePostCommand command)
     {
-        throw new NotImplementedException();
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.RemovePost(command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
-    public Task HandleAsync(RemovePostCommand command)
+    public async Task HandleAsync(RemoveCommentCommand command)
     {
-        throw new NotImplementedException();
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.RemoveComment(command.CommentId, command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
     }
 }
