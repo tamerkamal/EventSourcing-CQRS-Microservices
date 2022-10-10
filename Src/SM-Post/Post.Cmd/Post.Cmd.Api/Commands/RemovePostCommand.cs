@@ -6,5 +6,6 @@ public class RemovePostCommand: BaseCommand
 {
     public RemovePostCommand(string raisedBy) : base(raisedBy)
     {
+
     }
 }
