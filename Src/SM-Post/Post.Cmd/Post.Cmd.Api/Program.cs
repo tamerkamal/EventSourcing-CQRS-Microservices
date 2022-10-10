@@ -1,16 +1,14 @@
-#region Usings
-
 using CQRS.Core.Domain;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
+using Post.Cmd.Api.Commands;
 using Post.Cmd.Api.Commands.Handler;
 using Post.Cmd.Domain.Aggregates;
 using Post.Cmd.Infrastructure.Config;
+using Post.Cmd.Infrastructure.Dispatchers;
 using Post.Cmd.Infrastructure.Handlers;
 using Post.Cmd.Infrastructure.Repositories;
 using Post.Cmd.Infrastructure.Stores;
-
-#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +27,26 @@ builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
 builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
 builder.Services.AddScoped<ICommandHandler, CommandHandler>();
+
+#endregion
+
+#region Register command handlers
+
+var commandHandler = builder.Services.BuildServiceProvider().GetRequiredService<ICommandHandler>();
+
+var commandDispatcher = new CommandDispatcher();
+// ToDo: use and loop over =>: var commandTypes = Reflections.FindAllDerivedTypes<BaseCommand>();
+
+commandDispatcher.RegiserHandler<AddPostCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegiserHandler<AddCommentCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegiserHandler<EditPostTextCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegiserHandler<EditCommentCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegiserHandler<RemovePostCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegiserHandler<RemoveCommentCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegiserHandler<LikePostCommand>(commandHandler.HandleAsync);
+
+// Todo: Try => builder.Services.AddSingleton<ICommandDispatcher,CommandDispatcher>();
+builder.Services.AddSingleton<ICommandDispatcher>(_ => commandDispatcher);
 
 #endregion
 
