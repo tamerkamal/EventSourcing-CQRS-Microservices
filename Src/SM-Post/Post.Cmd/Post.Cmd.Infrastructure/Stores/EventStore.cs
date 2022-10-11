@@ -7,15 +7,18 @@ using CQRS.Core.Domain;
 using CQRS.Core.Events;
 using CQRS.Core.Execptions;
 using CQRS.Core.Infrastructure;
+using CQRS.Core.Producers;
 using Post.Cmd.Domain.Aggregates;
 
 public class EventStore : IEventStore
 {
     private readonly IEventStoreRepository _eventStoreRepository;
+    private readonly IEventProducer _eventProducer;
 
-    public EventStore(IEventStoreRepository eventStoreRepository)
+    public EventStore(IEventStoreRepository eventStoreRepository, IEventProducer eventProducer)
     {
         _eventStoreRepository = eventStoreRepository;
+        _eventProducer = eventProducer;
     }
 
     public async Task<List<BaseEvent>> GetEventsOrderedDescendingByVersionAsync(Guid aggregateId)
@@ -44,6 +47,8 @@ public class EventStore : IEventStore
 
         List<EventStoreModel> eventStoreModels = new();
 
+        var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
+
         foreach (var @event in events)
         {
             var eventType = @event.GetType().Name;
@@ -60,11 +65,11 @@ public class EventStore : IEventStore
                 TimeStamp = DateTime.UtcNow
             };
 
-            eventStoreModels.Add(eventStroreModel);
+            await _eventStoreRepository.SaveAsync(eventStroreModel);
+
+            await _eventProducer.ProduceAsync(topic, @event);
 
             newEventVersion++;
         }
-
-        await _eventStoreRepository.SaveAsync(eventStoreModels);
     }
 }
