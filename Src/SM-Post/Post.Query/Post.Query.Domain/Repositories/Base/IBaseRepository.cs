@@ -8,5 +8,6 @@ public interface IBaseRepository<T> where T : BaseEntity
     Task UpdateAsync(T entity);
     Task DeleteAsync(Guid entityId);
     Task<T> GetByIdAsync(Guid entityId);
-    Task<List<T>> GetAllAsync();
+    Task<T> GetByIdAsNoTrackingAsync(Guid entityId);
+    Task<IEnumerable<T>> GetAllAsync();
 }

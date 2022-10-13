@@ -1,8 +1,9 @@
 namespace Post.Query.Infrastructure.DataAccess;
 
+using CQRS.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 
-public class DatabaseContextFactory
+public class DatabaseContextFactory<T> where T : BaseEntity
 {
     private readonly Action<DbContextOptionsBuilder> _configureDbContext;
 
@@ -17,5 +18,10 @@ public class DatabaseContextFactory
         _configureDbContext(dbContextOptions);
 
         return new DatabaseContext(dbContextOptions.Options);
+    }
+
+    public DbSet<T> CreateDbSet()
+    {
+        return CreateDbContext().Set<T>();
     }
 }
