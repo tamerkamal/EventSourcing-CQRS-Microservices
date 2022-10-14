@@ -1,4 +1,4 @@
-namespace Post.Cmd.Infrastructure.Repositories;
+namespace Post.Cmd.Infrastructure.Repositories.EventStore;
 
 using System;
 using System.Collections.Generic;

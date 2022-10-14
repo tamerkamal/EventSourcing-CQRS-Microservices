@@ -6,14 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Add services to the container
 
-#region Read Database 
+#region MS SQL Database 
 
 Action<DbContextOptionsBuilder> configureDbContext = (o => o.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
-builder.Services.AddDbContext<DatabaseContext>(configureDbContext);
-builder.Services.AddSingleton<DatabaseContextFactory<BaseEntity>>(new DatabaseContextFactory<BaseEntity>(configureDbContext));
+builder.Services.AddDbContext<DatabaseQueryContext>(configureDbContext);
+builder.Services.AddSingleton<DatabaseQueryContextFactory<BaseEntity>>(new DatabaseQueryContextFactory<BaseEntity>(configureDbContext));
 
 // Create database and tables from code (Code First)<>
-var databaseContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseContext>();
+var databaseContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseQueryContext>();
 databaseContext.Database.EnsureCreated();
 
 #endregion

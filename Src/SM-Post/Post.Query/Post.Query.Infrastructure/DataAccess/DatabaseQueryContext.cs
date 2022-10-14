@@ -3,9 +3,9 @@ namespace Post.Query.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Post.Query.Domain.Entities;
 
-public class DatabaseContext : DbContext
+public class DatabaseQueryContext : DbContext
 {
-    public DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+    public DatabaseQueryContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
     {
 
     }
