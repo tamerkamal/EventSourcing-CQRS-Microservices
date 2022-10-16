@@ -1,4 +1,4 @@
-namespace Post.Query.Domain.Entities;
+namespace Post.Common.Entities;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

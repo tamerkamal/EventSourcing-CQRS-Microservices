@@ -1,6 +1,6 @@
 namespace Post.Query.Infrastructure.Repositories;
 
-using Post.Query.Domain.Entities;
+using Post.Common.Entities;
 using Post.Query.Domain.Repositories.Base;
 using Post.Query.Infrastructure.DataAccess;
 

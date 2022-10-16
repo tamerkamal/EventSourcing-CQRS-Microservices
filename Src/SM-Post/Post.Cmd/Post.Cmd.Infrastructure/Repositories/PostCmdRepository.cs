@@ -1,8 +1,8 @@
 namespace Post.Cmd.Infrastructure.Repositories;
 
-using Post.Cmd.Domain.Entities;
 using Post.Cmd.Infrastructure.DataAccess;
 using Post.Cmd.Infrastructure.Repositories.Base;
+using Post.Common.Entities;
 
 public class PostCmdRepository : BaseCmdRepository<PostEntity>
 {

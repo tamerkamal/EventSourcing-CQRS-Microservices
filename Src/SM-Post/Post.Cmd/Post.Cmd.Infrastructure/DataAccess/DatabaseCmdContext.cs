@@ -1,7 +1,7 @@
 namespace Post.Cmd.Infrastructure.DataAccess;
 
 using Microsoft.EntityFrameworkCore;
-using Post.Cmd.Domain.Entities;
+using Post.Common.Entities;
 
 public class DatabaseCmdContext : DbContext
 {

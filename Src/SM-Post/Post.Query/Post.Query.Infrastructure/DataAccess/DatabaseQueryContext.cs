@@ -1,7 +1,7 @@
 namespace Post.Query.Infrastructure.DataAccess;
 
 using Microsoft.EntityFrameworkCore;
-using Post.Query.Domain.Entities;
+using Post.Common.Entities;
 
 public class DatabaseQueryContext : DbContext
 {
