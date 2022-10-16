@@ -1,7 +1,8 @@
 
-namespace Post.Common.Events.Handlers;
+namespace Post.Cmd.Domain.Handlers;
 
 using CQRS.Core.Handlers;
+using Post.Common.Events;
 
 public class PostLikedEventHandler : IEventHandler<PostLikedEvent>
 {
