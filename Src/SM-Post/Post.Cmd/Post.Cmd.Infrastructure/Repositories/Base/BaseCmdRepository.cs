@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Post.Cmd.Domain.Repositories.Base;
 using Post.Cmd.Infrastructure.DataAccess;
 
+[Obsolete]
 public class BaseCmdRepository<Entity> : IBaseCmdRepository<Entity> where Entity : BaseEntity
 {
     private readonly DatabaseCmdContextFactory<Entity> _databaseCmdContextFactory;

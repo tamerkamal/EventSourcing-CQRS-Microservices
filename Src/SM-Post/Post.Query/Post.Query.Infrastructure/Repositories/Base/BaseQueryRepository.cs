@@ -4,6 +4,7 @@ using CQRS.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Post.Query.Infrastructure.DataAccess;
 
+[Obsolete]
 public abstract class BaseQueryRepository<T> : IBaseQueryRepository<T> where T : BaseEntity
 {
     private readonly DatabaseQueryContextFactory<T> _databaseContextFactory;
