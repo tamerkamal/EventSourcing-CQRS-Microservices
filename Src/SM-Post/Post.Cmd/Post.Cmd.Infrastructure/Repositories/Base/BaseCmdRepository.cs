@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 using Post.Cmd.Domain.Repositories.Base;
 using Post.Cmd.Infrastructure.DataAccess;
 
-public class BaseCmdRepository<T> : IBaseCmdRepository<T> where T : BaseEntity
+public class BaseCmdRepository<Entity> : IBaseCmdRepository<Entity> where Entity : BaseEntity
 {
-    private readonly DatabaseCmdContextFactory<T> _databaseCmdContextFactory;
-    private DbSet<T> _entities;
+    private readonly DatabaseCmdContextFactory<Entity> _databaseCmdContextFactory;
+    private DbSet<Entity> _entities;
 
-    public BaseCmdRepository(DatabaseCmdContextFactory<T> databaseCmdContextFactory)
+    public BaseCmdRepository(DatabaseCmdContextFactory<Entity> databaseCmdContextFactory)
     {
         _databaseCmdContextFactory = databaseCmdContextFactory;
         _entities = _databaseCmdContextFactory.CreateDbSet();
     }
 
-    public virtual async Task CreateAsync(T entity)
+    public virtual async Task CreateAsync(Entity entity)
     {
         using (DatabaseCmdContext dbContext = _databaseCmdContextFactory.CreateDbContext())
         {
@@ -25,7 +25,7 @@ public class BaseCmdRepository<T> : IBaseCmdRepository<T> where T : BaseEntity
             await dbContext.SaveChangesAsync();
         }
     }
-    public virtual async Task UpdateAsync(T entity)
+    public virtual async Task UpdateAsync(Entity entity)
     {
         using (DatabaseCmdContext dbContext = _databaseCmdContextFactory.CreateDbContext())
         {
@@ -46,5 +46,12 @@ public class BaseCmdRepository<T> : IBaseCmdRepository<T> where T : BaseEntity
 
             await dbContext.SaveChangesAsync();
         }
+    }
+
+    public async Task<Entity> GetByIdAsync(Guid entityId)
+    {
+        var entity = await _entities.FindAsync(entityId);
+
+        return entity;
     }
 }

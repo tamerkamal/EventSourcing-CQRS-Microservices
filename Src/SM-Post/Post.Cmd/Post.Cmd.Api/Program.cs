@@ -7,13 +7,17 @@ using Microsoft.EntityFrameworkCore;
 using Post.Cmd.Api.Commands;
 using Post.Cmd.Api.Commands.Handler;
 using Post.Cmd.Domain.Aggregates;
+using Post.Cmd.Domain.Handlers;
+using Post.Cmd.Domain.Repositories;
 using Post.Cmd.Infrastructure.Config;
-using Post.Cmd.Infrastructure.DataAccess;
 using Post.Cmd.Infrastructure.Dispatchers;
 using Post.Cmd.Infrastructure.Handlers;
+using Post.Cmd.Infrastructure.Handlers.EventHandlers;
 using Post.Cmd.Infrastructure.Producers;
+using Post.Cmd.Infrastructure.Repositories;
 using Post.Cmd.Infrastructure.Repositories.EventStore;
 using Post.Cmd.Infrastructure.Stores;
+using Post.Common.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,11 +34,14 @@ builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(name
 #region MS SQL Database 
 
 Action<DbContextOptionsBuilder> configureDbContext = (o => o.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
-builder.Services.AddDbContext<DatabaseCmdContext>(configureDbContext);
-builder.Services.AddSingleton<DatabaseCmdContextFactory<BaseEntity>>(new DatabaseCmdContextFactory<BaseEntity>(configureDbContext));
+//builder.Services.AddDbContext<DatabaseCmdContext>(configureDbContext);
+builder.Services.AddDbContext<DatabaseContext>(configureDbContext);
+//builder.Services.AddSingleton<DatabaseCmdContextFactory<BaseEntity>>(new DatabaseCmdContextFactory<BaseEntity>(configureDbContext));
+builder.Services.AddSingleton<DatabaseContextFactory>(new DatabaseContextFactory(configureDbContext));
 
 // Create database and tables from code (Code First)<>
-var databaseContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseCmdContext>();
+//var databaseContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseCmdContext>();
+var databaseContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseContext>();
 databaseContext.Database.EnsureCreated();
 
 #endregion
@@ -42,6 +49,13 @@ databaseContext.Database.EnsureCreated();
 #region Scoped
 
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
+//builder.Services.AddScoped(typeof(IBaseCmdRepository<>), typeof(BaseCmdRepository<>));
+builder.Services.AddScoped<IPostCmdRepository, PostCmdRepository>();
+builder.Services.AddScoped<ICommentCmdRepository, CommentCmdRepository>();
+
+builder.Services.AddScoped<IPostEventHandler, PostEventHandler>();
+builder.Services.AddScoped<ICommentEventHandler, CommentEventHandler>();
+
 builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();

@@ -2,9 +2,10 @@ namespace Post.Cmd.Domain.Repositories.Base;
 
 using CQRS.Core.Domain;
 
-public interface IBaseCmdRepository<T> where T : BaseEntity
+public interface IBaseCmdRepository<Entity> where Entity : BaseEntity
 {
-    Task CreateAsync(T entity);
-    Task UpdateAsync(T entity);
+    Task CreateAsync(Entity entity);
+    Task UpdateAsync(Entity entity);
     Task DeleteAsync(Guid entityId);
+    Task<Entity> GetByIdAsync(Guid entityId);
 }
