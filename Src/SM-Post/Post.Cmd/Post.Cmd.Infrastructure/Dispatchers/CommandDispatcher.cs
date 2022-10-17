@@ -17,6 +17,7 @@ public class CommandDispatcher : ICommandDispatcher
         _commandHandlers.Add(typeof(T), x => commandHandler((T)x));
     }
 
+#nullable enable
     public async Task SendAsync(BaseCommand command)
     {
         if (!_commandHandlers.TryGetValue(command.GetType(), out Func<BaseCommand, Task>? commandHandler))

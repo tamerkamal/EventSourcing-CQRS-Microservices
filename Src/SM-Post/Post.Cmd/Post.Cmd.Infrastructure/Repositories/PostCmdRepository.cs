@@ -4,8 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Post.Cmd.Domain.Repositories;
-using Post.Cmd.Infrastructure.DataAccess;
-using Post.Cmd.Infrastructure.Repositories.Base;
 using Post.Common.DbContexts;
 using Post.Common.Entities;
 

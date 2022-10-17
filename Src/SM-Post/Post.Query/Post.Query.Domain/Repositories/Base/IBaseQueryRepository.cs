@@ -2,8 +2,8 @@ namespace Post.Query.Domain.Repositories.Base;
 
 using CQRS.Core.Domain;
 
-public interface IBaseQueryRepository<T> where T : BaseEntity
+public interface IBaseQueryRepository<Entity> where Entity : BaseEntity
 {
-    Task<T> GetByIdAsync(Guid entityId);
-    Task<IEnumerable<T>> GetAllAsync();
+    Task<Entity> GetByIdAsync(Guid entityId);
+    Task<IEnumerable<Entity>> GetAllAsync();
 }
