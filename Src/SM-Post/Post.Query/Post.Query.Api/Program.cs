@@ -1,14 +1,14 @@
-using CQRS.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Post.Common.DbContexts;
 using Post.Query.Domain.Repositories;
-using Post.Query.Infrastructure.DataAccess;
 using Post.Query.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region Add services to the container 
 // Note: Order is important since some lower added services depend on upper ones.
+
+#region Configs
 
 #region MS SQL Database 
 
@@ -22,6 +22,8 @@ builder.Services.AddSingleton<DatabaseContextFactory>(new DatabaseContextFactory
 //var databaseContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseQueryContext>();
 var databaseContext = builder.Services.BuildServiceProvider().GetRequiredService<DatabaseContext>();
 databaseContext.Database.EnsureCreated();
+
+#endregion
 
 #endregion
 

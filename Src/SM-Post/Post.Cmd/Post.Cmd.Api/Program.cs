@@ -1,4 +1,5 @@
 using Confluent.Kafka;
+using CQRS.Core.Consumers;
 using CQRS.Core.Domain;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
@@ -10,6 +11,7 @@ using Post.Cmd.Domain.Aggregates;
 using Post.Cmd.Domain.Handlers;
 using Post.Cmd.Domain.Repositories;
 using Post.Cmd.Infrastructure.Config;
+using Post.Cmd.Infrastructure.Consumers;
 using Post.Cmd.Infrastructure.Dispatchers;
 using Post.Cmd.Infrastructure.Handlers;
 using Post.Cmd.Infrastructure.Handlers.EventHandlers;
@@ -22,14 +24,13 @@ using Post.Common.DbContexts;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Add services to the container 
-// Note: Order is important since some lower added services depend on upper ones.
+// Note: Configs should come on top, for others Order is useful to clearly show the dependencies.
 
 #region Configs
 
 builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
 builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(ProducerConfig)));
-
-#endregion
+builder.Services.Configure<ConsumerConfig>(builder.Configuration.GetSection(nameof(ConsumerConfig)));
 
 #region MS SQL Database 
 
@@ -46,19 +47,35 @@ databaseContext.Database.EnsureCreated();
 
 #endregion
 
+#endregion
+
 #region Scoped
+
+#region Repositories
 
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
 //builder.Services.AddScoped(typeof(IBaseCmdRepository<>), typeof(BaseCmdRepository<>));
 builder.Services.AddScoped<IPostCmdRepository, PostCmdRepository>();
 builder.Services.AddScoped<ICommentCmdRepository, CommentCmdRepository>();
 
+#endregion
+
+#region Event/EventSourcing Handlers
+
 builder.Services.AddScoped<IPostEventHandler, PostEventHandler>();
 builder.Services.AddScoped<ICommentEventHandler, CommentEventHandler>();
+builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
 
+#endregion
+
+#region Event...
+
+builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IEventStore, EventStore>();
-builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
+
+#endregion
+
 builder.Services.AddScoped<ICommandHandler, CommandHandler>();
 
 #endregion
