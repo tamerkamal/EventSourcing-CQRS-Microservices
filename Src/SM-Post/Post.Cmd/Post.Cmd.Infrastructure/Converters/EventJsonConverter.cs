@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using CQRS.Core.Events;
 using Post.Common.Events;
 
-namespace Post.Query.Infrastructure.Converters;
+namespace Post.Cmd.Infrastructure.Converters;
 
 public class EventJsonConverter : JsonConverter<BaseEvent>
 {
