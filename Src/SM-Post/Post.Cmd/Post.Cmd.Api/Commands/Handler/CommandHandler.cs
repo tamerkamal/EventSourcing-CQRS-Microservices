@@ -12,25 +12,11 @@ public class CommandHandler : ICommandHandler
         _eventSourcingHandler = eventSourcingHandler;
     }
 
+    #region Handling Post Commands
+
     public async Task HandleAsync(AddPostCommand command)
     {
         PostAggregate aggregate = new(command.Id, command.RaisedBy);
-
-        await _eventSourcingHandler.SaveAsync(aggregate);
-    }
-
-    public async Task HandleAsync(AddCommentCommand command)
-    {
-        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
-        aggregate.AddComment(command.Comment, command.RaisedBy);
-
-        await _eventSourcingHandler.SaveAsync(aggregate);
-    }
-
-    public async Task HandleAsync(EditCommentCommand command)
-    {
-        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
-        aggregate.EditComment(command.CommentId, command.Comment, command.RaisedBy);
 
         await _eventSourcingHandler.SaveAsync(aggregate);
     }
@@ -59,6 +45,26 @@ public class CommandHandler : ICommandHandler
         await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
+    #endregion    
+
+    #region Handling Comment Commands
+
+    public async Task HandleAsync(AddCommentCommand command)
+    {
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.AddComment(command.Comment, command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
+    }
+
+    public async Task HandleAsync(EditCommentCommand command)
+    {
+        PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
+        aggregate.EditComment(command.CommentId, command.Comment, command.RaisedBy);
+
+        await _eventSourcingHandler.SaveAsync(aggregate);
+    }
+
     public async Task HandleAsync(RemoveCommentCommand command)
     {
         PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
@@ -66,4 +72,6 @@ public class CommandHandler : ICommandHandler
 
         await _eventSourcingHandler.SaveAsync(aggregate);
     }
+
+    #endregion
 }
