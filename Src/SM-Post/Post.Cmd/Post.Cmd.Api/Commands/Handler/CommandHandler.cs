@@ -16,7 +16,8 @@ public class CommandHandler : ICommandHandler
 
     public async Task HandleAsync(AddPostCommand command)
     {
-        PostAggregate aggregate = new(command.Id, command.RaisedBy);
+        PostAggregate aggregate = new();
+        aggregate.AddPost(command.Id, command.RaisedBy, command.Text);
 
         await _eventSourcingHandler.SaveAsync(aggregate);
     }

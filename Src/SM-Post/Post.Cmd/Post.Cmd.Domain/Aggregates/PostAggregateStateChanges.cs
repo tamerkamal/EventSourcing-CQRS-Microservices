@@ -1,9 +1,20 @@
 namespace Post.Cmd.Domain.Aggregates;
 
 using Post.Common.Events;
+
+/// <summary>
+/// Apply state Changes
+/// </summary>
 public partial class PostAggregate
 {
-    #region Private methods (Apply state Changes)
+    #region Post methods
+
+    private void Apply(PostAddedEvent @event)
+    {
+        Id = @event.Id;
+        _author = @event.RaisedBy;
+        IsActive = true;
+    }
 
     private void Apply(PostTextEditedEvent @event)
     {
@@ -14,6 +25,17 @@ public partial class PostAggregate
     {
         Id = @event.Id;
     }
+
+    private void Apply(PostRemovedEvent @event)
+    {
+        Id = @event.Id;
+        IsActive = false;
+    }
+
+    #endregion
+
+
+    #region Comment methods
 
     private void Apply(CommentAddedEvent @event)
     {
@@ -28,12 +50,6 @@ public partial class PostAggregate
     private void Apply(CommentRemovedEvent @event)
     {
         _comments.Remove(@event.CommentId);
-    }
-
-    private void Apply(PostRemovedEvent @event)
-    {
-        Id = @event.Id;
-        IsActive = false;
     }
 
     #endregion

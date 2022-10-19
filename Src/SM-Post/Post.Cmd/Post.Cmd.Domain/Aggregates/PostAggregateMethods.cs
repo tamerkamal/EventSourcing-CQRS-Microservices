@@ -4,8 +4,6 @@ using Post.Common.Events;
 
 public partial class PostAggregate
 {
-    #region Public methods
-
     #region Post methods   
 
     public void AddPost(Guid id, string author, string text)
@@ -119,5 +117,4 @@ public partial class PostAggregate
 
     #endregion 
 
-    #endregion  
 }
