@@ -26,7 +26,7 @@ public partial class PostAggregate : AggregateRoot
 
         if (!_author.Equals(raisedBy, StringComparison.CurrentCultureIgnoreCase))
         {
-            throw new($"You can edit a post added by someone else!");
+            throw new($"You can't edit a post added by someone else!");
         }
 
         if (string.IsNullOrWhiteSpace(text))
@@ -51,12 +51,12 @@ public partial class PostAggregate : AggregateRoot
     {
         if (!IsActive)
         {
-            throw new InvalidOperationException("Posta already removed!");
+            throw new InvalidOperationException("Post already removed!");
         }
 
         if (!_author.Equals(raisedBy, StringComparison.CurrentCultureIgnoreCase))
         {
-            throw new($"You can remove a post added by someone else!");
+            throw new($"You can't remove a post added by someone else!");
         }
 
         RaiseEvent(new PostRemovedEvent(raisedBy) { Id = Id });

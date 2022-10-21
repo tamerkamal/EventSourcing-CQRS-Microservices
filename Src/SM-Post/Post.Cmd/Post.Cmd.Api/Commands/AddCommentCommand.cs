@@ -4,11 +4,10 @@ using CQRS.Core.Commands;
 
 public class AddCommentCommand: BaseCommand
 {
-    public AddCommentCommand(string raisedBy, Guid commentId, string comment)
+    public AddCommentCommand(string raisedBy, Guid commentId, string comment) : base(raisedBy)
     {
         CommentId = commentId;
         Comment = comment;
-        RaisedBy = raisedBy;
     }
 
     public Guid CommentId { get; set; }

@@ -4,11 +4,9 @@ using CQRS.Core.Commands;
 
 public class AddPostCommand : BaseCommand
 {
-    public AddPostCommand(string raisedBy, string text)
+    public AddPostCommand(string raisedBy, string text) : base(raisedBy)
     {
-        // assumed that author is same as the user who added the post (Raised the event)
-        this.RaisedBy = string.IsNullOrEmpty(raisedBy) ? "System" : raisedBy;
-        this.Text = text;
+        Text = text;
     }
 
     public string Text { get; set; }

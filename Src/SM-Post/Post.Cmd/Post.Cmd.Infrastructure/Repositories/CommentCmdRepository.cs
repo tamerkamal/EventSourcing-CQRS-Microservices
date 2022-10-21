@@ -26,7 +26,7 @@ public class CommentCmdRepository : ICommentCmdRepository //: BaseCmdRepository<
         using DatabaseContext context = _contextFactory.CreateDbContext();
         context.Comments.Update(comment);
 
-        _ = await context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Guid commentId)
@@ -37,7 +37,7 @@ public class CommentCmdRepository : ICommentCmdRepository //: BaseCmdRepository<
         if (comment == null) return;
 
         context.Comments.Remove(comment);
-        _ = await context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task CreateAsync(CommentEntity comment)
@@ -45,7 +45,7 @@ public class CommentCmdRepository : ICommentCmdRepository //: BaseCmdRepository<
         using DatabaseContext context = _contextFactory.CreateDbContext();
         context.Comments.Add(comment);
 
-        _ = await context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     // private readonly DatabaseCmdContextFactory<CommentEntity> _databaseCmdContextFactory;

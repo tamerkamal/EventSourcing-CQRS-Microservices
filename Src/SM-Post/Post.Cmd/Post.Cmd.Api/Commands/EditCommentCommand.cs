@@ -4,7 +4,7 @@ using CQRS.Core.Commands;
 
 public class EditCommentCommand : BaseCommand
 {
-    public EditCommentCommand(string raisedBy, Guid commentId, string comment)
+    public EditCommentCommand(string raisedBy, Guid commentId, string comment) : base(raisedBy)
     {
         this.CommentId = commentId;
         this.Comment = comment;

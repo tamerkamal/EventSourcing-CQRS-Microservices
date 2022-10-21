@@ -32,6 +32,11 @@ public class CommentEventHandler : ICommentEventHandler
     {
         var commentEntity = await _commentCmdRepository.GetByIdAsync(@event.CommentId);
 
+        commentEntity.Comment = @event.Comment;
+        commentEntity.CommentId = @event.CommentId;
+        commentEntity.PostId = @event.Id;
+        commentEntity.WasEdited = true;
+
         await _commentCmdRepository.UpdateAsync(commentEntity);
     }
 

@@ -4,10 +4,9 @@ using CQRS.Core.Commands;
 
 public class EditPostTextCommand: BaseCommand
 {
-    public EditPostTextCommand(string raisedBy, string text)
+    public EditPostTextCommand(string raisedBy, string text) : base(raisedBy)
     {
-        this.RaisedBy = raisedBy;
-        this.Text = text;
+        Text = text;
     }
 
     public string Text { get; set; }
