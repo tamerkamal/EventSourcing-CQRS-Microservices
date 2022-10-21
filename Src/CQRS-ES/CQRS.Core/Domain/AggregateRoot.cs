@@ -47,6 +47,9 @@ public abstract class AggregateRoot
 
     private void ApplyChange(BaseEvent @event, bool isNewEvent)
     {
+        var currentClassType = this.GetType();
+        var eventType = @event.GetType();
+
         var applyMethod = this.GetType().GetMethod("Apply", new Type[] { @event.GetType() });
 
         if (applyMethod is null)

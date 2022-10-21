@@ -21,16 +21,16 @@ public class EventSourcingHandler : IEventSourcingHandler<PostAggregate>
     {
         PostAggregate postAggregate = new();
 
-        var eventsOrderedDescendingByVersion = await _eventStore.GetEventsOrderedDescendingByVersionAsync(aggregateId);
+        var eventsOrderedByVersion = await _eventStore.GetEventsOrderedByVersionAsync(aggregateId);
 
-        if (eventsOrderedDescendingByVersion?.Any() is not true)
+        if (eventsOrderedByVersion?.Any() is not true)
         {
             return postAggregate;
         }
 
-        postAggregate.ReplayEvents(eventsOrderedDescendingByVersion);
+        postAggregate.ReplayEvents(eventsOrderedByVersion);
 
-        postAggregate.Version = eventsOrderedDescendingByVersion.Select(x => x.Version).First();
+        postAggregate.Version = eventsOrderedByVersion.Select(x => x.Version).Last();
 
         return postAggregate;
     }

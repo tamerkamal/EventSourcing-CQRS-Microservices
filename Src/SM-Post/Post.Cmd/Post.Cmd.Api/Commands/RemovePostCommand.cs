@@ -4,7 +4,7 @@ using CQRS.Core.Commands;
 
 public class RemovePostCommand: BaseCommand
 {
-    public RemovePostCommand(string raisedBy) : base(raisedBy)
+    public RemovePostCommand(string raisedBy)
     {
 
     }

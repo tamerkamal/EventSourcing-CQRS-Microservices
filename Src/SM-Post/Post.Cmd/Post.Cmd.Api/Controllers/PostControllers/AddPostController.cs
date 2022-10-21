@@ -1,13 +1,14 @@
-namespace Post.Cmd.Api.Controllers;
+namespace Post.Cmd.Api.Controllers.PostControllers;
 
 using CQRS.Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Post.Cmd.Api.Commands;
-using Post.Cmd.Api.Dtos;
+using Post.Cmd.Api.Dtos.RequestDtos;
+using Post.Cmd.Api.Dtos.ResponseDtos;
 using Post.Common.Dtos;
 
 [ApiController]
-[Route("api/v1/{controller}")]
+[Route("api/v1/[controller]")]
 public class AddPostController : ControllerBase
 {
     private readonly ILogger<AddPostController> _logger;
@@ -20,17 +21,17 @@ public class AddPostController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddPostAsync(AddPostCommand addPostCommand)
+    public async Task<ActionResult> AddPostAsync(AddPostRequest request)
     {
         try
         {
-            addPostCommand.Id = Guid.NewGuid();
+            AddPostCommand addPostCommand = new(request.RaisedBy, request.Text) { Id = Guid.NewGuid() };
 
             await _commeandDispatcher.SendAsync(addPostCommand);
 
             return StatusCode(StatusCodes.Status201Created, new AddPostResponse
             {
-                Id = addPostCommand.Id,
+                PostId = addPostCommand.Id,
                 Message = "New post added successfully!"
             });
         }
@@ -46,7 +47,7 @@ public class AddPostController : ControllerBase
         }
         catch (Exception exception)
         {
-            const string SAFE_ERROR_MESSAGE = "An error occured while adding the new post";
+            const string SAFE_ERROR_MESSAGE = "An error occured while adding the new post!";
             _logger.Log(LogLevel.Error, exception, SAFE_ERROR_MESSAGE);
 
             return StatusCode(StatusCodes.Status500InternalServerError, new AddPostResponse

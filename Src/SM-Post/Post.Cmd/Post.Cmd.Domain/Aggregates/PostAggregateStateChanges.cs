@@ -1,32 +1,33 @@
 namespace Post.Cmd.Domain.Aggregates;
 
+using CQRS.Core.Domain;
 using Post.Common.Events;
 
 /// <summary>
 /// Apply state Changes
 /// </summary>
-public partial class PostAggregate
+public partial class PostAggregate : AggregateRoot
 {
     #region Post methods
 
-    private void Apply(PostAddedEvent @event)
+    public void Apply(PostAddedEvent @event)
     {
         Id = @event.Id;
         _author = @event.RaisedBy;
         IsActive = true;
     }
 
-    private void Apply(PostTextEditedEvent @event)
+    public void Apply(PostTextEditedEvent @event)
     {
         Id = @event.Id;
     }
 
-    private void Apply(PostLikedEvent @event)
+    public void Apply(PostLikedEvent @event)
     {
         Id = @event.Id;
     }
 
-    private void Apply(PostRemovedEvent @event)
+    public void Apply(PostRemovedEvent @event)
     {
         Id = @event.Id;
         IsActive = false;
@@ -37,17 +38,17 @@ public partial class PostAggregate
 
     #region Comment methods
 
-    private void Apply(CommentAddedEvent @event)
+    public void Apply(CommentAddedEvent @event)
     {
         _comments.Add(@event.CommentId, new Tuple<string, string>(@event.Comment, @event.RaisedBy));
     }
 
-    private void Apply(CommentEditedEvent @event)
+    public void Apply(CommentEditedEvent @event)
     {
         _comments[@event.CommentId] = new Tuple<string, string>(@event.Comment, @event.RaisedBy);
     }
 
-    private void Apply(CommentRemovedEvent @event)
+    public void Apply(CommentRemovedEvent @event)
     {
         _comments.Remove(@event.CommentId);
     }

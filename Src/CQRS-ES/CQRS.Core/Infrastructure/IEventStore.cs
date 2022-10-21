@@ -8,5 +8,5 @@ public interface IEventStore
                          IEnumerable<BaseEvent> events,
                          int expectedVersion);
 
-    Task<List<BaseEvent>> GetEventsOrderedDescendingByVersionAsync(Guid aggregateId);
+    Task<List<BaseEvent>> GetEventsOrderedByVersionAsync(Guid aggregateId);
 }

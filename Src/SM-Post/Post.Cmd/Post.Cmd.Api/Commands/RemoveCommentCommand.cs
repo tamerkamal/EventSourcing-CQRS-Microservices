@@ -4,7 +4,7 @@ using CQRS.Core.Commands;
 
 public class RemoveCommentCommand: BaseCommand
 {
-    public RemoveCommentCommand(string raisedBy, Guid commentId) : base(raisedBy)
+    public RemoveCommentCommand(string raisedBy, Guid commentId)
     {
         this.CommentId = commentId;
     }

@@ -1,10 +1,12 @@
 using Confluent.Kafka;
 using CQRS.Core.Consumers;
 using CQRS.Core.Domain;
+using CQRS.Core.Events;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
 using CQRS.Core.Producers;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson.Serialization;
 using Post.Cmd.Api.Commands;
 using Post.Cmd.Api.Commands.Handler;
 using Post.Cmd.Domain.Aggregates;
@@ -20,8 +22,32 @@ using Post.Cmd.Infrastructure.Repositories;
 using Post.Cmd.Infrastructure.Repositories.EventStore;
 using Post.Cmd.Infrastructure.Stores;
 using Post.Common.DbContexts;
+using Post.Common.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region  Mapping to overcome MongoDb not accepting deserialization of abstract classes
+
+BsonClassMap.RegisterClassMap<BaseEvent>();
+
+#region PostEvents
+
+BsonClassMap.RegisterClassMap<PostAddedEvent>();
+BsonClassMap.RegisterClassMap<PostTextEditedEvent>();
+BsonClassMap.RegisterClassMap<PostRemovedEvent>();
+BsonClassMap.RegisterClassMap<PostLikedEvent>();
+
+#endregion
+
+#region  CommentEvents
+
+BsonClassMap.RegisterClassMap<CommentAddedEvent>();
+BsonClassMap.RegisterClassMap<CommentEditedEvent>();
+BsonClassMap.RegisterClassMap<CommentRemovedEvent>();
+
+#endregion
+
+#endregion
 
 #region Add services to the container 
 // Note: Configs should come on top, for others Order is useful to clearly show the dependencies.

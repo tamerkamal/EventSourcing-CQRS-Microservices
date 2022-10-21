@@ -1,8 +1,9 @@
 namespace Post.Cmd.Domain.Aggregates;
 
+using CQRS.Core.Domain;
 using Post.Common.Events;
 
-public partial class PostAggregate
+public partial class PostAggregate : AggregateRoot
 {
     #region Post methods   
 
@@ -65,7 +66,7 @@ public partial class PostAggregate
 
     #region Comment methods
 
-    public void AddComment(string comment, string commenter)
+    public void AddComment(Guid commentId, string comment, string commenter)
     {
         if (!IsActive)
         {
@@ -77,7 +78,7 @@ public partial class PostAggregate
             throw new InvalidOperationException($"The value of {nameof(comment)} can not be null or empty!");
         }
 
-        RaiseEvent(new CommentAddedEvent(commenter, Guid.NewGuid(), comment) { Id = Id });
+        RaiseEvent(new CommentAddedEvent(commenter, commentId, comment) { Id = Id });
     }
 
     public void EditComment(Guid commentId, string comment, string commenter)

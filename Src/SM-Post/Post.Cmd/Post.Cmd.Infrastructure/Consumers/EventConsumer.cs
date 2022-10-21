@@ -5,7 +5,6 @@ using System.Text.Json;
 using Confluent.Kafka;
 using CQRS.Core.Consumers;
 using CQRS.Core.Events;
-using CQRS.Core.Handlers;
 using Microsoft.Extensions.Options;
 using Post.Cmd.Domain.Handlers;
 using Post.Cmd.Infrastructure.Converters;

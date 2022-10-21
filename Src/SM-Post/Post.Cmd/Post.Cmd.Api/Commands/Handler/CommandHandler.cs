@@ -53,7 +53,7 @@ public class CommandHandler : ICommandHandler
     public async Task HandleAsync(AddCommentCommand command)
     {
         PostAggregate aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
-        aggregate.AddComment(command.Comment, command.RaisedBy);
+        aggregate.AddComment(command.CommentId, command.Comment, command.RaisedBy);
 
         await _eventSourcingHandler.SaveAsync(aggregate);
     }

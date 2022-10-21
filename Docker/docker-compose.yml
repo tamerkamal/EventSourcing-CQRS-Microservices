@@ -10,7 +10,7 @@ services:
     volumes:
       - zookeeper_data:/bitnami
     environment:
-      - ALLOW_ANONYMOUS_LOGIN =yes
+      - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
     image: bitnami/kafka

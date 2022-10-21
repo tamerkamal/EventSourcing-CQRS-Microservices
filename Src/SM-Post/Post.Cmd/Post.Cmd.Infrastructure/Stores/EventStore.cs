@@ -21,7 +21,7 @@ public class EventStore : IEventStore
         _eventProducer = eventProducer;
     }
 
-    public async Task<List<BaseEvent>> GetEventsOrderedDescendingByVersionAsync(Guid aggregateId)
+    public async Task<List<BaseEvent>> GetEventsOrderedByVersionAsync(Guid aggregateId)
     {
         var eventStream = await _eventStoreRepository.FindEventsByAggregateIdAsync(aggregateId);
 
@@ -30,15 +30,15 @@ public class EventStore : IEventStore
             throw new AggregateNotFoundException("Incorrect Post Id provided");
         }
 
-        return eventStream.OrderByDescending(x => x.Version).ToList();
+        return eventStream.OrderBy(x => x.Version).ToList();
     }
 
     public async Task SaveEventsAsync(Guid aggregateId, IEnumerable<BaseEvent> events, int expectedVersion)
     {
-        var eventStream = await GetEventsOrderedDescendingByVersionAsync(aggregateId);
+        var eventStream = expectedVersion == -1 ? null : await GetEventsOrderedByVersionAsync(aggregateId);
 
         // Optimistic concurrency check 
-        if (expectedVersion != -1 && eventStream[0].Version != expectedVersion)
+        if (expectedVersion != -1 && eventStream.Last().Version != expectedVersion)
         {
             throw new ConcurrencyException();
         }
