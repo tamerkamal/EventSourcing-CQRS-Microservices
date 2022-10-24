@@ -7,14 +7,14 @@ public class CommandDispatcher : ICommandDispatcher
 {
     private readonly Dictionary<Type, Func<BaseCommand, Task>> _commandHandlers = new();
 
-    public void RegiserHandler<T>(Func<T, Task> commandHandler) where T : BaseCommand
+    public void RegiserHandler<TCommand>(Func<TCommand, Task> commandHandler) where TCommand : BaseCommand
     {
-        if (_commandHandlers.ContainsKey(typeof(T)))
+        if (_commandHandlers.ContainsKey(typeof(TCommand)))
         {
             throw new IndexOutOfRangeException("Command handler already registered!");
         }
 
-        _commandHandlers.Add(typeof(T), x => commandHandler((T)x));
+        _commandHandlers.Add(typeof(TCommand), x => commandHandler((TCommand)x));
     }
 
 #nullable enable

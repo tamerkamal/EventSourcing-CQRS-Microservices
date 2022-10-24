@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 using Post.Query.Infrastructure.DataAccess;
 
 [Obsolete]
-public abstract class BaseQueryRepository<T> : IBaseQueryRepository<T> where T : BaseEntity
+public abstract class BaseQueryRepository<Entity> : IBaseQueryRepository<Entity> where Entity : BaseEntity
 {
-    private readonly DatabaseQueryContextFactory<T> _databaseContextFactory;
-    private DbSet<T> _entities;
+    private readonly DatabaseQueryContextFactory<Entity> _databaseContextFactory;
+    private DbSet<Entity> _entities;
 
-    public BaseQueryRepository(DatabaseQueryContextFactory<T> databaseContextFactory)
+    public BaseQueryRepository(DatabaseQueryContextFactory<Entity> databaseContextFactory)
     {
         _databaseContextFactory = databaseContextFactory;
         _entities = _databaseContextFactory.CreateDbSet();
     }
 
-    public virtual async Task<T> GetByIdAsync(Guid entityId)
+    public virtual async Task<Entity> GetByIdAsync(Guid entityId)
     {
         using (DatabaseQueryContext dbContext = _databaseContextFactory.CreateDbContext())
         {
@@ -25,7 +25,7 @@ public abstract class BaseQueryRepository<T> : IBaseQueryRepository<T> where T :
         }
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async Task<IEnumerable<Entity>> GetAllAsync()
     {
         using (DatabaseQueryContext dbContext = _databaseContextFactory.CreateDbContext())
         {
