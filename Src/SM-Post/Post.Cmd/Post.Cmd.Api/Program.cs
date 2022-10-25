@@ -8,7 +8,8 @@ using CQRS.Core.Producers;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson.Serialization;
 using Post.Cmd.Api.Commands;
-using Post.Cmd.Api.Commands.Handler;
+using Post.Cmd.Api.RestoreAppDbComand;
+using Post.Cmd.Api.RestoreAppDbComand.Handler;
 using Post.Cmd.Domain.Aggregates;
 using Post.Cmd.Domain.Handlers;
 using Post.Cmd.Domain.Repositories;
@@ -120,6 +121,7 @@ commandDispatcher.RegiserHandler<EditCommentCommand>(commandHandler.HandleAsync)
 commandDispatcher.RegiserHandler<RemovePostCommand>(commandHandler.HandleAsync);
 commandDispatcher.RegiserHandler<RemoveCommentCommand>(commandHandler.HandleAsync);
 commandDispatcher.RegiserHandler<LikePostCommand>(commandHandler.HandleAsync);
+commandDispatcher.RegiserHandler<RestoreAppDbCommand>(commandHandler.HandleAsync);
 
 // Todo: Try => builder.Services.AddSingleton<ICommandDispatcher,CommandDispatcher>();
 builder.Services.AddSingleton<ICommandDispatcher>(_ => commandDispatcher);

@@ -5,9 +5,9 @@ using Post.Query.Api.Queries;
 
 public interface IQueryHandler
 {
-    Task<IEnumerable<PostEntity>> HandleAsync(GetAllPostsQuery query);
-    Task<IEnumerable<PostEntity>> HandleAsync(GetPostByIdQuery query);
-    Task<IEnumerable<PostEntity>> HandleAsync(GetPostsHavingLikesQuery query);
-    Task<IEnumerable<PostEntity>> HandleAsync(GetPostsByAuthorQuery query);
-    Task<IEnumerable<PostEntity>> HandleAsync(GetPostsHavingCommentsQuery query);
+    Task<List<PostEntity>> HandleAsync(GetAllPostsQuery query);
+    Task<List<PostEntity>> HandleAsync(GetPostByIdQuery query);
+    Task<List<PostEntity>> HandleAsync(GetPostsHavingLikesQuery query);
+    Task<List<PostEntity>> HandleAsync(GetPostsByAuthorQuery query);
+    Task<List<PostEntity>> HandleAsync(GetPostsHavingCommentsQuery query);
 }

@@ -14,7 +14,7 @@ public abstract class AggregateRoot
 
     #region Public methods
 
-    public IEnumerable<BaseEvent> GetUncommittedEvents()
+    public List<BaseEvent> GetUncommittedEvents()
     {
         return _uncommitedEventChanges;
     }
@@ -24,7 +24,7 @@ public abstract class AggregateRoot
         _uncommitedEventChanges.Clear();
     }
 
-    public void ReplayEvents(IEnumerable<BaseEvent> eventStoreEvents)
+    public void ReplayEvents(List<BaseEvent> eventStoreEvents)
     {
         foreach (var @event in eventStoreEvents)
         {

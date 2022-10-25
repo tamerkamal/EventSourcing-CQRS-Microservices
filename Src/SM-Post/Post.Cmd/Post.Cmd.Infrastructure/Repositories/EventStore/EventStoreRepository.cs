@@ -28,12 +28,17 @@ public class EventStoreRepository : IEventStoreRepository
         return (await FindByAggregateIdAsync(aggregateId))?.Select(x => x.EventData).ToList();
     }
 
+    public async Task<List<EventStoreModel>> FindAllAsync()
+    {
+        return await _eventStorCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
+    }
+
     public async Task SaveAsync(EventStoreModel eventStoreModel)
     {
         await _eventStorCollection.InsertOneAsync(@eventStoreModel).ConfigureAwait(false);
     }
 
-    public async Task SaveAsync(IEnumerable<EventStoreModel> eventStoreModels)
+    public async Task SaveAsync(List<EventStoreModel> eventStoreModels)
     {
         await _eventStorCollection.InsertManyAsync(@eventStoreModels).ConfigureAwait(false);
     }

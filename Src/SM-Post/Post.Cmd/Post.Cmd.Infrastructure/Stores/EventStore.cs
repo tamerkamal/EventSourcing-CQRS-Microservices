@@ -21,6 +21,20 @@ public class EventStore : IEventStore
         _eventProducer = eventProducer;
     }
 
+    public async Task<List<Guid>> GetAggregateIdsAsync()
+    {
+        var eventStream = await _eventStoreRepository.FindAllAsync();
+
+        if (eventStream?.Any() is not true)
+        {
+            throw new ArgumentNullException(nameof(eventStream), "Could not retrieve Event Stream from EventStore!");
+        }
+
+        var aggregateIds = eventStream.Select(e => e.AggregateId).Distinct().ToList();
+
+        return aggregateIds;
+    }
+
     public async Task<List<BaseEvent>> GetEventsOrderedByVersionAsync(Guid aggregateId)
     {
         var eventStream = await _eventStoreRepository.FindEventsByAggregateIdAsync(aggregateId);
@@ -33,7 +47,7 @@ public class EventStore : IEventStore
         return eventStream.OrderBy(x => x.Version).ToList();
     }
 
-    public async Task SaveEventsAsync(Guid aggregateId, IEnumerable<BaseEvent> events, int expectedVersion)
+    public async Task SaveEventsAsync(Guid aggregateId, List<BaseEvent> events, int expectedVersion)
     {
         var eventStream = expectedVersion == -1 ? null : await GetEventsOrderedByVersionAsync(aggregateId);
 

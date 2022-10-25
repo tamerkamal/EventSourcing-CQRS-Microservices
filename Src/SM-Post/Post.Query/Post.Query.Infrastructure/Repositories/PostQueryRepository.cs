@@ -13,7 +13,7 @@ public class PostQueryRepository : IPostQueryRepository //BaseQueryRepository<Po
         _contextFactory = contextFactory;
     }
 
-    public async Task<IEnumerable<PostEntity>> GetAllAsync()
+    public async Task<List<PostEntity>> GetAllAsync()
     {
         using (DatabaseContext dbContext = _contextFactory.CreateDbContext())
         {
@@ -22,7 +22,7 @@ public class PostQueryRepository : IPostQueryRepository //BaseQueryRepository<Po
         }
     }
 
-    public async Task<IEnumerable<PostEntity>> GetByAuthorAsync(string author)
+    public async Task<List<PostEntity>> GetByAuthorAsync(string author)
     {
         using (DatabaseContext dbContext = _contextFactory.CreateDbContext())
         {
@@ -33,7 +33,6 @@ public class PostQueryRepository : IPostQueryRepository //BaseQueryRepository<Po
 
     public async Task<PostEntity> GetByIdAsync(Guid entityId)
     {
-
         using (DatabaseContext dbContext = _contextFactory.CreateDbContext())
         {
             var entity = await dbContext.Posts.Include(p => p.Comments).FirstOrDefaultAsync();
@@ -41,7 +40,7 @@ public class PostQueryRepository : IPostQueryRepository //BaseQueryRepository<Po
         }
     }
 
-    public async Task<IEnumerable<PostEntity>> GetHavingCommentsAsync()
+    public async Task<List<PostEntity>> GetHavingCommentsAsync()
     {
         using (DatabaseContext dbContext = _contextFactory.CreateDbContext())
         {
@@ -50,7 +49,7 @@ public class PostQueryRepository : IPostQueryRepository //BaseQueryRepository<Po
         }
     }
 
-    public async Task<IEnumerable<PostEntity>> GetLikedAsync(int minimumLikes)
+    public async Task<List<PostEntity>> GetLikedAsync(int minimumLikes)
     {
         using (DatabaseContext dbContext = _contextFactory.CreateDbContext())
         {

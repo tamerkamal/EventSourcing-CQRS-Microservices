@@ -1,6 +1,7 @@
-namespace Post.Cmd.Api.Commands.Handler;
+namespace Post.Cmd.Api.RestoreAppDbComand.Handler;
 
 using CQRS.Core.Handlers;
+using Post.Cmd.Api.Commands;
 using Post.Cmd.Domain.Aggregates;
 
 public class CommandHandler : ICommandHandler
@@ -73,6 +74,15 @@ public class CommandHandler : ICommandHandler
 
         await _eventSourcingHandler.SaveAsync(aggregate);
     }
+
+    #region Handling App. Database commands
+
+    public async Task HandleAsync(RestoreAppDbCommand command)
+    {
+        await _eventSourcingHandler.RepublishEventsAsync();
+    }
+
+    #endregion
 
     #endregion
 }

@@ -19,7 +19,7 @@ public class CommentQueryRepository : ICommentQueryRepository //BaseQueryReposit
         _contextFactory = contextFactory;
     }
 
-    public async Task<IEnumerable<CommentEntity>> GetAllAsync()
+    public async Task<List<CommentEntity>> GetAllAsync()
     {
         using DatabaseContext context = _contextFactory.CreateDbContext();
 

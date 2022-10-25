@@ -1,4 +1,4 @@
-namespace Post.Cmd.Api.Commands;
+namespace Post.Cmd.Api.RestoreAppDbComand;
 
 using CQRS.Core.Commands;
 

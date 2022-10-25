@@ -25,7 +25,7 @@ public abstract class BaseQueryRepository<Entity> : IBaseQueryRepository<Entity>
         }
     }
 
-    public virtual async Task<IEnumerable<Entity>> GetAllAsync()
+    public virtual async Task<List<Entity>> GetAllAsync()
     {
         using (DatabaseQueryContext dbContext = _databaseContextFactory.CreateDbContext())
         {

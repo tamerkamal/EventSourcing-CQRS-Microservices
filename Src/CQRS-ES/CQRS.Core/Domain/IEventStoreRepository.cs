@@ -6,5 +6,6 @@ public interface IEventStoreRepository
 {
     Task<List<BaseEvent>> FindEventsByAggregateIdAsync(Guid aggregateId);
     Task SaveAsync(EventStoreModel @eventStoreModel);
-    Task SaveAsync(IEnumerable<EventStoreModel> eventStoreModels);
+    Task SaveAsync(List<EventStoreModel> eventStoreModels);
+    Task<List<EventStoreModel>> FindAllAsync();
 }

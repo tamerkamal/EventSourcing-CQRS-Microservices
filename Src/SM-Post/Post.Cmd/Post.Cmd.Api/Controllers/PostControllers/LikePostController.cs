@@ -1,7 +1,7 @@
 using CQRS.Core.Execptions;
 using CQRS.Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Post.Cmd.Api.Commands;
+using Post.Cmd.Api.RestoreAppDbComand;
 using Post.Cmd.Api.Dtos.RequestDtos;
 using Post.Common.Dtos;
 
