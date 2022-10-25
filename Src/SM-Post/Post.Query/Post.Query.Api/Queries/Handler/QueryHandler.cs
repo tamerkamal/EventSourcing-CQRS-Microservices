@@ -1,9 +1,8 @@
-namespace Post.Query.Api.Queries;
+namespace Post.Query.Api.Queries.Handler;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Post.Common.Entities;
-using Post.Query.Domain.Handlers;
 using Post.Query.Domain.Repositories;
 
 public class QueryHandler : IQueryHandler
@@ -20,9 +19,10 @@ public class QueryHandler : IQueryHandler
         return await _postQueryRepository.GetAllAsync();
     }
 
-    public async Task<PostEntity> HandleAsync(GetPostByIdQuery query)
+    public async Task<IEnumerable<PostEntity>> HandleAsync(GetPostByIdQuery query)
     {
-        return await _postQueryRepository.GetByIdAsync(query.Id);
+        var post = await _postQueryRepository.GetByIdAsync(query.Id);
+        return new List<PostEntity> { post };
     }
 
     public async Task<IEnumerable<PostEntity>> HandleAsync(GetPostsHavingLikesQuery query)

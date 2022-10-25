@@ -9,9 +9,9 @@ using Post.Common.Entities;
 public class QueryDispatcher : IQueryDispatcher<PostEntity>
 {
 
-    private readonly Dictionary<Type, Func<BaseQuery, Task<List<PostEntity>>>> _queryHandlers = new();
+    private readonly Dictionary<Type, Func<BaseQuery, Task<IEnumerable<PostEntity>>>> _queryHandlers = new();
 
-    public void RegisterHandler<TQuery>(Func<TQuery, Task<List<PostEntity>>> handler) where TQuery : BaseQuery
+    public void RegisterHandler<TQuery>(Func<TQuery, Task<IEnumerable<PostEntity>>> handler) where TQuery : BaseQuery
     {
         if (_queryHandlers.ContainsKey(typeof(TQuery)))
         {
@@ -21,9 +21,9 @@ public class QueryDispatcher : IQueryDispatcher<PostEntity>
         _queryHandlers.Add(typeof(TQuery), q => handler((TQuery)q));
     }
 
-    public async Task<List<PostEntity>> SendAsync(BaseQuery query)
+    public async Task<IEnumerable<PostEntity>> SendAsync(BaseQuery query)
     {
-        if (!_queryHandlers.TryGetValue(query.GetType(), out Func<BaseQuery, Task<List<PostEntity>>> handler))
+        if (!_queryHandlers.TryGetValue(query.GetType(), out Func<BaseQuery, Task<IEnumerable<PostEntity>>> handler))
         {
             return await handler(query);
         }
