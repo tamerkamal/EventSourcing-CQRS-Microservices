@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CQRS.Core.Domain;
 
-[Table("Post")]
+[Table("Post", Schema = "dbo")]
 public class PostEntity : BaseEntity
 {
     public PostEntity(Guid postId, string text, string author, DateTimeOffset addedOn) : base(addedOn, author)

@@ -8,7 +8,7 @@ using Post.Common.Dtos;
 namespace Comment.Cmd.Api.Controllers.CommentControllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/comment/[controller]")]
 public class EditCommentController : ControllerBase
 {
     private readonly ILogger<EditCommentController> _logger;

@@ -6,7 +6,7 @@ using Post.Common.Dtos;
 namespace Post.Cmd.Api.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/appDb/[controller]")]
 public class RestoreAppDbController : ControllerBase
 {
     private readonly ILogger<RestoreAppDbController> _logger;

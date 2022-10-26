@@ -8,7 +8,7 @@ using Post.Cmd.Api.Dtos.ResponseDtos;
 using Post.Common.Dtos;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/comment/[controller]")]
 public class AddCommentController : ControllerBase
 {
     private readonly ILogger<AddCommentController> _logger;

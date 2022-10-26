@@ -8,7 +8,7 @@ using Post.Common.Dtos;
 namespace Post.Cmd.Api.Controllers.CommentControllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/comment/[controller]")]
 public class RemoveCommentController : ControllerBase
 {
     private readonly ILogger<RemoveCommentController> _logger;

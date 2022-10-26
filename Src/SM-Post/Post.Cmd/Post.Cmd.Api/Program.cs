@@ -61,7 +61,19 @@ builder.Services.Configure<ConsumerConfig>(builder.Configuration.GetSection(name
 
 #region MS SQL Database 
 
-Action<DbContextOptionsBuilder> configureDbContext = (o => o.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+Action<DbContextOptionsBuilder> configureDbContext;
+
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+if (env.Equals("Development.PostgresSQL"))
+{
+    configureDbContext = (o => o.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("SqlServer")));
+}
+else
+{
+    configureDbContext = (o => o.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+}
+
 //builder.Services.AddDbContext<DatabaseCmdContext>(configureDbContext);
 builder.Services.AddDbContext<DatabaseContext>(configureDbContext);
 //builder.Services.AddSingleton<DatabaseCmdContextFactory<BaseEntity>>(new DatabaseCmdContextFactory<BaseEntity>(configureDbContext));

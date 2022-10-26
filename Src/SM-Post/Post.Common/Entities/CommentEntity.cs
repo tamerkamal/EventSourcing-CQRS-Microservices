@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CQRS.Core.Domain;
 
-[Table("Comment")]
+[Table("Comment", Schema = "dbo")]
 public class CommentEntity : BaseEntity
 {
     public CommentEntity(Guid commentId, string comment, bool wasEdited, Guid postId, DateTimeOffset addedOn, string addedBy) : base(addedOn, addedBy)

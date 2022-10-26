@@ -69,6 +69,9 @@ ScaffoldingReadMe.txt
 # StyleCop
 StyleCopReport.xml
 
+# Docker files
+*.yml
+ 
 # Files built by Visual Studio
 *_i.c
 *_p.c
